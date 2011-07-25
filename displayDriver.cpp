@@ -1,4 +1,7 @@
-#include <SPI.h>
+#include "WProgram.h"
+#include "SPI.h"
+#include "displayDriver.h"
+#include "charset.h"
 
 void initSPI()
 {

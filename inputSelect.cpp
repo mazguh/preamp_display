@@ -1,5 +1,7 @@
 #define MAX_INPUTS 6
 
+#include "displayDriver.h"
+
 void inputSelect(int n)
 {
    switch(n)

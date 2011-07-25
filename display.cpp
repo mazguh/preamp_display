@@ -1,4 +1,7 @@
-#include <SPI.h>
+#include "WProgram.h"
+#include "displayDriver.h"
+#include "inputSelect.h"
+// #include <SPI.h>
 
 int currentInput=0;
 unsigned int counter=0;

@@ -1,3 +1,5 @@
+#include "displayDriver.h"
+
 void write_blank()
 {
   writeSpiChar(0x00);
