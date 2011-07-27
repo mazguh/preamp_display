@@ -3,7 +3,12 @@
 #include "displayDriver.h"
 #include "charset.h"
 
-void initSPI()
+displayDriver::displayDriver()
+{
+  initSPI();
+}
+
+void displayDriver::initSPI()
 {
   pinMode(9, OUTPUT);     
   SPI.begin();
@@ -17,7 +22,7 @@ void initSPI()
   digitalWrite(9, HIGH);
 }
 
-void setBrightness(int n)
+void displayDriver::setBrightness(int n)
 {
   if(n>=0 && n<8)
   {
@@ -25,20 +30,20 @@ void setBrightness(int n)
   }
 }
 
-void writeSpiChar(int c)
+void displayDriver::writeSpiChar(int c)
 {
   digitalWrite(10, LOW);
   SPI.transfer(c);  //char 0
   digitalWrite(10, HIGH);
  }
 
-void selectDisplayChar(int n)
+void displayDriver::selectDisplayChar(int n)
 {
   if(n>=0 && n<8)
      writeSpiChar(0xA0 + n);
 }
 
-void writeChar(char letter, int pos)
+void displayDriver::writeChar(char letter, int pos)
 {
   selectDisplayChar(pos);
   switch(letter)

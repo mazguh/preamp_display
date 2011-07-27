@@ -1,10 +1,11 @@
 #include "WProgram.h"
 #include "displayDriver.h"
-#include "inputSelect.h"
+// #include "inputSelect.h"
 // #include <SPI.h>
 
 int currentInput=0;
 unsigned long lastChangeTime = 0;
+displayDriver display;
 
 int getSelectedInput()
 {
@@ -22,9 +23,49 @@ int getSelectedInput()
   return ret;  
 }
 
+void inputSelect(int n)
+{
+   switch(n)
+   {
+      case 0:
+        display.writeChar(' ', 0);
+        display.writeChar(' ', 1);
+        display.writeChar('D', 2);
+        display.writeChar('V', 3);
+        display.writeChar('D', 4);
+        display.writeChar(' ', 5);
+        display.writeChar(' ', 6);
+        display.writeChar(' ', 7);
+        break; 
+
+      case 1:
+        display.writeChar(' ', 0);
+        display.writeChar(' ', 1);
+        display.writeChar(' ', 2);
+        display.writeChar('C', 3);
+        display.writeChar('D', 4);
+        display.writeChar(' ', 5);
+        display.writeChar(' ', 6);
+        display.writeChar(' ', 7);
+        break; 
+
+      case 2:
+        display.writeChar(' ', 0);
+        display.writeChar(' ', 1);
+        display.writeChar(' ', 2);
+        display.writeChar('T', 3);
+        display.writeChar('V', 4);
+        display.writeChar(' ', 5);
+        display.writeChar(' ', 6);
+        display.writeChar(' ', 7);
+        break; 
+   }
+}
+
+
 void setup()
 {                
-  initSPI();
+  //  display.initSPI();
   pinMode(2, INPUT);     
   pinMode(3, INPUT);     
 }
@@ -38,11 +79,11 @@ void loop()
        currentInput = selectedInput;
        inputSelect(currentInput);
        lastChangeTime = millis();
-       setBrightness(0);
+       display.setBrightness(0);
     }
     
     if((lastChangeTime + 3000)<millis())
-       setBrightness(4);
+       display.setBrightness(4);
     if((lastChangeTime + 5000)<millis())
-       setBrightness(6);
+       display.setBrightness(6);
 }
