@@ -4,7 +4,6 @@
 // #include <SPI.h>
 
 int currentInput=0;
-unsigned int counter=0;
 unsigned long lastChangeTime = 0;
 
 int getSelectedInput()
