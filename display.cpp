@@ -1,4 +1,6 @@
-#include "WProgram.h"
+// #include "WProgram.h"
+#include "Arduino.h"
+#include "pins_arduino.h"
 #include "displayDriver.h"
 // #include "inputSelect.h"
 // #include <SPI.h>

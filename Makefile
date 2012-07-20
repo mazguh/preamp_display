@@ -1,7 +1,8 @@
 ARDUINO_DIR  = /usr/share/arduino
 
 TARGET       = display
-# ARDUINO_LIBS = SPI
+BOARD_TAG    = nano
+ARDUINO_LIBS = SPI
 
 MCU          = atmega328
 F_CPU        = 16000000

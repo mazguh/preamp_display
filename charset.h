@@ -1,7 +1,7 @@
 #ifndef CHARSET_H
 #define CHARSET_H
 
-const int blank = 6;
+const int blank = 0;
 
 void write_blank();
 void write_C();
