@@ -13,7 +13,11 @@ class displayDriver
   
  private:
   void initSPI();
-  
+  void write_blank();  
+  void write_C();
+  void write_D();
+  void write_T();
+  void write_V();
 };
 
 #endif //ifndef DISPLAYDRIVER_H

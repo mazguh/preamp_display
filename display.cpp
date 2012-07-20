@@ -11,16 +11,16 @@ displayDriver display;
 
 int getSelectedInput()
 {
-  int ret = -1;
+  int ret = 0;
   
   if(digitalRead(2)==HIGH)
-    ret = 0;
+    ret += 1;
     
   if(digitalRead(4)==HIGH)
-    ret = 1;
+    ret += 2;
 
   if(digitalRead(6)==HIGH)
-    ret = 2;
+    ret += 4;
   
   return ret;  
 }
@@ -75,13 +75,15 @@ void setup()
 
 void loop()
 {
-    int selectedInput = getSelectedInput();
-    if(selectedInput != currentInput && selectedInput != -1)
+  int selectedInput = getSelectedInput();
+  if(selectedInput != currentInput)
     {
-       currentInput = selectedInput;
-       inputSelect(currentInput);
-       lastChangeTime = millis();
-       display.setBrightness(0);
+      delay(50);
+      selectedInput = getSelectedInput();
+      currentInput = selectedInput;
+      inputSelect(currentInput);
+      lastChangeTime = millis();
+      display.setBrightness(0);
     }
     
     if((lastChangeTime + 3000)<millis())

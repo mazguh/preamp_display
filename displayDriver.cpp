@@ -2,7 +2,7 @@
 #include "pins_arduino.h"
 #include "SPI.h"
 #include "displayDriver.h"
-#include "charset.h"
+// #include "charset.h"
 
 displayDriver::displayDriver()
 {
@@ -70,3 +70,65 @@ void displayDriver::writeChar(char letter, int pos)
      break;
   } 
 }
+
+/********************************/
+/*    Charset definition        */
+/********************************/
+
+void displayDriver::write_blank()
+{
+   writeSpiChar(0x00);
+   writeSpiChar(0x00);
+   writeSpiChar(0x00);
+   writeSpiChar(0x00);
+   writeSpiChar(0x00);
+   writeSpiChar(0x00);
+   writeSpiChar(0x00);
+}
+
+
+void displayDriver::write_C()
+{
+   writeSpiChar(0x0E);
+   writeSpiChar(0x11);
+   writeSpiChar(0x10);
+   writeSpiChar(0x10);
+   writeSpiChar(0x10);
+   writeSpiChar(0x11);
+   writeSpiChar(0x0E);
+}
+
+
+void displayDriver::write_D()
+{
+   writeSpiChar(0x1E);
+   writeSpiChar(0x11);
+   writeSpiChar(0x11);
+   writeSpiChar(0x11);
+   writeSpiChar(0x11);
+   writeSpiChar(0x11);
+   writeSpiChar(0x1E);
+}
+
+void displayDriver::write_T()
+{
+   writeSpiChar(0x1F);
+   writeSpiChar(0x04);
+   writeSpiChar(0x04);
+   writeSpiChar(0x04);
+   writeSpiChar(0x04);
+   writeSpiChar(0x04);
+   writeSpiChar(0x04);
+}
+
+void displayDriver::write_V()
+{
+   writeSpiChar(0x11);
+   writeSpiChar(0x11);
+   writeSpiChar(0x11);
+   writeSpiChar(0x0A);
+   writeSpiChar(0x0A);
+   writeSpiChar(0x04);
+   writeSpiChar(0x04);
+}
+
