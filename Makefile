@@ -9,7 +9,4 @@ ARDUINO_LIBS = SPI
 #ARDUINO_PORT = /dev/cu.usb*
 ARDUINO_PORT = /dev/ttyUSB*
 
-
-
-
 include /usr/share/arduino/Arduino.mk

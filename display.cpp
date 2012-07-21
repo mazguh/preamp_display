@@ -1,13 +1,12 @@
-// #include "WProgram.h"
-#include "Arduino.h"
-#include "pins_arduino.h"
-#include "displayDriver.h"
-// #include "inputSelect.h"
-// #include <SPI.h>
+#include <Arduino.h>
+#include <SPI.h>
 
 int currentInput=0;
 unsigned long lastChangeTime = 0;
-displayDriver display;
+
+void writeChar(char, int);
+void initSPI();
+void setBrightness(int);
 
 int getSelectedInput()
 {
@@ -30,36 +29,36 @@ void inputSelect(int n)
    switch(n)
    {
       case 0:
-        display.writeChar('A', 0);
-        display.writeChar(' ', 1);
-        display.writeChar('D', 2);
-        display.writeChar('V', 3);
-        display.writeChar('D', 4);
-        display.writeChar(' ', 5);
-        display.writeChar(' ', 6);
-        display.writeChar(' ', 7);
+        writeChar('A', 0);
+        writeChar(' ', 1);
+        writeChar('D', 2);
+        writeChar('V', 3);
+        writeChar('D', 4);
+        writeChar(' ', 5);
+        writeChar(' ', 6);
+        writeChar(' ', 7);
         break; 
 
       case 1:
-        display.writeChar('A', 0);
-        display.writeChar(' ', 1);
-        display.writeChar(' ', 2);
-        display.writeChar('C', 3);
-        display.writeChar('D', 4);
-        display.writeChar(' ', 5);
-        display.writeChar(' ', 6);
-        display.writeChar(' ', 7);
+        writeChar('A', 0);
+        writeChar(' ', 1);
+        writeChar(' ', 2);
+        writeChar('C', 3);
+        writeChar('D', 4);
+        writeChar(' ', 5);
+        writeChar(' ', 6);
+        writeChar(' ', 7);
         break; 
 
       case 2:
-        display.writeChar('A', 0);
-        display.writeChar(' ', 1);
-        display.writeChar(' ', 2);
-        display.writeChar('T', 3);
-        display.writeChar('V', 4);
-        display.writeChar(' ', 5);
-        display.writeChar(' ', 6);
-        display.writeChar(' ', 7);
+        writeChar('A', 0);
+        writeChar(' ', 1);
+        writeChar(' ', 2);
+        writeChar('T', 3);
+        writeChar('V', 4);
+        writeChar(' ', 5);
+        writeChar(' ', 6);
+        writeChar(' ', 7);
         break; 
    }
 }
@@ -67,7 +66,7 @@ void inputSelect(int n)
 
 void setup()
 {                
-  display.initSPI();
+  initSPI();
   pinMode(2, INPUT);     
   pinMode(3, INPUT);     
 }
@@ -76,20 +75,21 @@ void setup()
 void loop()
 {
   int selectedInput = getSelectedInput();
-  display.setBrightness(0);
-  inputSelect(0);
+  setBrightness(0);
+  inputSelect(selectedInput);
   if(selectedInput != currentInput)
     {
       delay(50);
       selectedInput = getSelectedInput();
       currentInput = selectedInput;
-      inputSelect(0);
+      inputSelect(currentInput);
       lastChangeTime = millis();
-      display.setBrightness(0);
+      setBrightness(0);
     }
     
     if((lastChangeTime + 3000)<millis())
-       display.setBrightness(4);
+       setBrightness(4);
     if((lastChangeTime + 5000)<millis())
-       display.setBrightness(6);
+       setBrightness(6);
 }
+
