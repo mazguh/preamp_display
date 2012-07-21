@@ -10,9 +10,9 @@ class displayDriver
   void writeSpiChar(int c);
   void selectDisplayChar(int n);
   void writeChar(char letter, int pos);
+  void initSPI();
   
  private:
-  void initSPI();
   void write_blank();  
   void write_C();
   void write_D();

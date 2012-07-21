@@ -49,10 +49,6 @@ void displayDriver::writeChar(char letter, int pos)
   selectDisplayChar(pos);
   switch(letter)
   {
-   case ' ':
-     write_blank();
-     break;
-     
    case 'C':
      write_C();
      break;
@@ -65,9 +61,20 @@ void displayDriver::writeChar(char letter, int pos)
      write_T();
      break;
 
-   case 'V':
-     write_V();
+  case ' ':
+   writeSpiChar(0x0E);
+   writeSpiChar(0x11);
+   writeSpiChar(0x10);
+   writeSpiChar(0x10);
+   writeSpiChar(0x10);
+   writeSpiChar(0x11);
+   writeSpiChar(0x0E);
+   //     write_blank();
      break;
+  default:
+  case 'V':
+    write_V();
+    break;
   } 
 }
 

@@ -30,7 +30,7 @@ void inputSelect(int n)
    switch(n)
    {
       case 0:
-        display.writeChar(' ', 0);
+        display.writeChar('A', 0);
         display.writeChar(' ', 1);
         display.writeChar('D', 2);
         display.writeChar('V', 3);
@@ -41,7 +41,7 @@ void inputSelect(int n)
         break; 
 
       case 1:
-        display.writeChar(' ', 0);
+        display.writeChar('A', 0);
         display.writeChar(' ', 1);
         display.writeChar(' ', 2);
         display.writeChar('C', 3);
@@ -52,7 +52,7 @@ void inputSelect(int n)
         break; 
 
       case 2:
-        display.writeChar(' ', 0);
+        display.writeChar('A', 0);
         display.writeChar(' ', 1);
         display.writeChar(' ', 2);
         display.writeChar('T', 3);
@@ -67,7 +67,7 @@ void inputSelect(int n)
 
 void setup()
 {                
-  //  display.initSPI();
+  display.initSPI();
   pinMode(2, INPUT);     
   pinMode(3, INPUT);     
 }
@@ -76,12 +76,14 @@ void setup()
 void loop()
 {
   int selectedInput = getSelectedInput();
+  display.setBrightness(0);
+  inputSelect(0);
   if(selectedInput != currentInput)
     {
       delay(50);
       selectedInput = getSelectedInput();
       currentInput = selectedInput;
-      inputSelect(currentInput);
+      inputSelect(0);
       lastChangeTime = millis();
       display.setBrightness(0);
     }
