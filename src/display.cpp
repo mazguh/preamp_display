@@ -1,6 +1,6 @@
 #include <Arduino.h>
 #include <SPI.h>
-#include <CapSense.h>
+#include "CapSense.h"
 
 #define POWER_RELAY A4
 #define MUTE_RELAY  A2
@@ -15,6 +15,11 @@ bool button_state = false;
 void writeChar(char, int);
 void initSPI();
 void setBrightness(int);
+
+void software_Reset() // Restarts program from beginning but does not reset the peripherals and registers
+{
+  asm volatile ("  jmp 0");  
+} 
 
 int getSelectedInput()
 {
@@ -66,9 +71,9 @@ void inputSelect(int n)
 	    writeChar('A', 0);
 	    writeChar(':', 1);
 	    writeChar(' ', 2);
-	    writeChar('P', 3);
-	    writeChar('C', 4);
-	    writeChar(' ', 5);
+	    writeChar('E', 3);
+	    writeChar('X', 4);
+	    writeChar('T', 5);
 	    writeChar(' ', 6);
 	    writeChar(' ', 7);
 	    break; 
@@ -88,11 +93,11 @@ void inputSelect(int n)
 	    writeChar('D', 0);
 	    writeChar(':', 1);
 	    writeChar(' ', 2);
-	    writeChar('D', 3);
-	    writeChar('A', 4);
-	    writeChar('C', 5);
-	    writeChar(' ', 6);
-	    writeChar('A', 7);
+	    writeChar('P', 3);
+	    writeChar('C', 4);
+	    writeChar('O', 5);
+	    writeChar('R', 6);
+	    writeChar('N', 7);
 	    break; 
 
 	 case 5:
@@ -207,26 +212,26 @@ void displayWarmup()
    Serial.println("Inside warmup loop.");
    setBrightness(0);
    write_smed();
-   delay(3000);
+   delay(4000);
    write_aikido();
-   delay(3000);
-   for(int i=0;i<2;i++)
+   delay(4000);
+   for(int i=0;i<6;i++)
    {
       write_please();
       for(int j=0;j<3;j++)
       {
-	 setBrightness(0);
-	 delay(100);
-	 setBrightness(6);
-	 delay(100);
+        setBrightness(0);
+        delay(100);
+        setBrightness(6);
+        delay(100);
       }
       write_wait();
       for(int j=0;j<3;j++)
       {
-	 setBrightness(0);
-	 delay(100);
-	 setBrightness(6);
-	 delay(100);
+        setBrightness(0);
+        delay(100);
+        setBrightness(6);
+        delay(100);
       }
    }
    Serial.println("Inside warmup loop. DONE.");
@@ -240,6 +245,7 @@ void toggle_power_switch()
       power_state = true;
       digitalWrite(POWER_RELAY, HIGH);
       displayWarmup();
+      setBrightness(0);
       digitalWrite(MUTE_RELAY,  HIGH);
       inputSelect(getSelectedInput());
    }
@@ -250,6 +256,7 @@ void toggle_power_switch()
       digitalWrite(POWER_RELAY, LOW);
       digitalWrite(MUTE_RELAY,  LOW);
       blank_display();
+      software_Reset();
    }
 }
 
@@ -260,21 +267,21 @@ void check_cap_sensor()
 //   Serial.print(reading);
    if(reading > 3000)
    {
-      if(cap_state<6)
-	 cap_state++;
-      if(cap_state==5 && button_state == false)
+      if(cap_state<=10)
+        cap_state++;
+      if(cap_state==10 && button_state == false)
       {
-	 button_state = true;
-	 toggle_power_switch();
+        button_state = true;
+        toggle_power_switch();
       }
 	 
    }
    else
    {
       if(cap_state>0)
-	 cap_state--;
+        cap_state--;
       if(cap_state == 1)
-	 button_state = false;
+        button_state = false;
    }
 //   Serial.print(" cap_state: ");
 //   Serial.println(cap_state);
@@ -291,13 +298,14 @@ void setup()
   pinMode(MUTE_RELAY,  OUTPUT);     
   digitalWrite(POWER_RELAY, LOW);
   digitalWrite(MUTE_RELAY,  LOW);
+  power_state = false;
+  setBrightness(0);
   blank_display();
 }
 
 void loop()
 {
    int selectedInput = getSelectedInput();
-   setBrightness(0);
    check_cap_sensor();
    if(selectedInput != currentInput)
    {
